@@ -13,9 +13,11 @@ GameObject:
   - component: {fileID: 426416340001307187}
   - component: {fileID: -3740413503070118054}
   - component: {fileID: 5411932336773222651}
+  - component: {fileID: 2501142555949879560}
+  - component: {fileID: -3898063060557463675}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,6 +56,10 @@ MonoBehaviour:
   mAirMoveSpeedAcceleration: 5
   mTurnLerpRate: 40
   mMaxMoveSpeed: 5
+  mAirCheckRadius: 0.5
+  mAirCheckLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!143 &426416340001307187
 CharacterController:
   m_ObjectHideFlags: 0
@@ -114,6 +120,42 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2501142555949879560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 917518969935472204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdc2fbdb8c0b28140a8004974043ed7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mBattleCharactersPrefabs:
+  - {fileID: 7893285979899184653, guid: ad06386727285704d836485ccdf64a03, type: 3}
+  - {fileID: 7893285979899184653, guid: ad06386727285704d836485ccdf64a03, type: 3}
+--- !u!135 &-3898063060557463675
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 917518969935472204}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1
+  m_Center: {x: 0, y: 0.93, z: 0}
 --- !u!1001 &4448283799025755825
 PrefabInstance:
   m_ObjectHideFlags: 0

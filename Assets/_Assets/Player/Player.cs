@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 [RequireComponent(typeof(MovementController))]
@@ -7,6 +8,9 @@ public class Player : MonoBehaviour
 
     private PlayerInputActions mPlayerInputActions;
     private MovementController mMovementController;
+
+    private BattleState mBattleState;
+    private BattlePartyComponent mBattlePartyComponent;
 
     CameraRig mCameraRig;
 
@@ -27,6 +31,8 @@ public class Player : MonoBehaviour
 
         mPlayerInputActions.GamePlay.Look.performed += (context) => mCameraRig.SetLookInput(context.ReadValue<Vector2>());
         mPlayerInputActions.GamePlay.Look.canceled += (context) => mCameraRig.SetLookInput(context.ReadValue<Vector2>());
+
+        mBattlePartyComponent = GetComponent<BattlePartyComponent>();
     }
 
     void OnEnable()
@@ -39,9 +45,22 @@ public class Player : MonoBehaviour
         mPlayerInputActions.Disable();
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject == gameObject)
+        {
+            return;
+        }
+
+        BattlePartyComponent otherBattlePartyComponent = other.GetComponent<BattlePartyComponent>();
+        if (otherBattlePartyComponent && !IsInBattle())
+        {
+            GameMode.MainGameMode.BattleManager.StartBattle(mBattlePartyComponent, otherBattlePartyComponent);
+        }
+    }
+    
+    private bool IsInBattle()
+    {
+        return mBattleState == BattleState.InBattle;
     }
 }
