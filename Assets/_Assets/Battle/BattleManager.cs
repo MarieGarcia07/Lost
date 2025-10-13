@@ -20,7 +20,7 @@ public class BattleManager
 
     private void PrepParty(BattlePartyComponent party)
     {
-        BattleSite partyBattleSite = mBattleSites.Find((battleSite)=> { return !battleSite.IsPlayerSite; });
+        BattleSite partyBattleSite = mBattleSites.Find((battleSite) => { return !battleSite.IsPlayerSite; });
         if (party.gameObject.CompareTag("Player"))
         {
             partyBattleSite = mBattleSites.Find((battleSite) => { return battleSite.IsPlayerSite; });
@@ -33,5 +33,8 @@ public class BattleManager
             partyBattleCharacter.transform.rotation = partyBattleSite.transform.rotation;
             i++;
         }
+
+        party.FinishPrep();
     }
+    
 }
