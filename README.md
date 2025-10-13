@@ -31,3 +31,6 @@ The ```MovementController``` class governs the movement of the character, it wil
 * Movement
 
 * Gravity and Jump
+
+* Updates the animation parameters
+
