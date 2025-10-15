@@ -1,16 +1,33 @@
+using System;
 using UnityEngine;
 
 public class BattleCharacter : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [field: SerializeField] public float Speed { get; private set; } = 1;
+    [SerializeField] GameObject mTurnIndicator;
+
+    public float CooldownDuration => 1f / Speed;
+    public float CooldownTimeRemaining { get; private set; }
+
+    public event Action OnTurnFinished;
+
+    void Awake()
     {
-        
+        CooldownTimeRemaining = CooldownDuration;
+        mTurnIndicator.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeTurn()
     {
+        Invoke("FinishTurn", 1);
+        mTurnIndicator.SetActive(true);
+        CooldownTimeRemaining = CooldownDuration;
+    }
+    
+    public void FinishTurn()
+    {
+        mTurnIndicator.SetActive(false);
+        OnTurnFinished?.Invoke();
         
     }
 }

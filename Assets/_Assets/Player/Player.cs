@@ -5,6 +5,9 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour, IViewClient
 {
     [SerializeField] CameraRig mCameraRigPrefab;
+    [SerializeField] GamePlayWidget mGamePlayWidgetPrefab;
+
+    GamePlayWidget mGameplayWidget;
 
     private PlayerInputActions mPlayerInputActions;
     private MovementController mMovementController;
@@ -33,6 +36,7 @@ public class Player : MonoBehaviour, IViewClient
         mPlayerInputActions.GamePlay.Look.canceled += (context) => mCameraRig.SetLookInput(context.ReadValue<Vector2>());
 
         mBattlePartyComponent = GetComponent<BattlePartyComponent>();
+        mGameplayWidget = Instantiate(mGamePlayWidgetPrefab);
     }
 
     void OnEnable()
@@ -71,8 +75,15 @@ public class Player : MonoBehaviour, IViewClient
         {
             mPlayerInputActions.GamePlay.Enable();
         }
-        
-       
+
+        mGameplayWidget.DipToBlack(1, 1, DippedToBlack);
+
+    }
+    
+    void DippedToBlack()
+    {
+        Debug.Log($"Dipped to black called");
+        mBattlePartyComponent.UpdateView();
     }
 
     private bool IsInBattle()

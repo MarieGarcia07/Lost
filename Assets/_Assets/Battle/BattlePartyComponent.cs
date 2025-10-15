@@ -16,11 +16,16 @@ public class BattlePartyComponent : MonoBehaviour
 
     public void FinishPrep()
     {
-        if(mOwnerViewClient is not null)
+    }
+    
+    public void UpdateView()
+    {
+        if (mOwnerViewClient is not null)
         {
             mOwnerViewClient.SetViewTarget(mBattleCharacters[0].transform);
             mOwnerViewClient.ResetViewAngle();
         }
+        
     }
     public List<BattleCharacter> GetBattleCharacters()
     {

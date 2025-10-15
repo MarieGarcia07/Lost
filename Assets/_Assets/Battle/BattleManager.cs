@@ -1,13 +1,16 @@
-using System;
+using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
-public class BattleManager
+public class BattleManager : MonoBehaviour
 {
     List<BattleSite> mBattleSites;
+    List<BattleCharacter> mBattleCharacters = new List<BattleCharacter>();
     public void StartBattle(BattlePartyComponent playerParty, BattlePartyComponent enemyParty)
     {
-        if(mBattleSites == null)
+        mBattleCharacters.Clear();
+        if (mBattleSites == null)
         {
             mBattleSites = new List<BattleSite>();
             mBattleSites.AddRange(GameObject.FindObjectsByType<BattleSite>(FindObjectsSortMode.None));
@@ -16,6 +19,23 @@ public class BattleManager
         Debug.Log($"Starting Battle between: {playerParty.gameObject.name} and {enemyParty.gameObject.name}");
         PrepParty(playerParty);
         PrepParty(enemyParty);
+
+        StartCoroutine(StartTurns());
+    }
+
+    IEnumerator StartTurns()
+    {
+        //TODO: Refactor to not hard code the delay
+        yield return new WaitForSeconds(2);
+        NextTurn();
+    }
+    
+    void NextTurn()
+    {
+        //go thru battle characters [list]
+        mBattleCharacters = mBattleCharacters.OrderBy((BattleCharacter)=> { return BattleCharacter.CooldownTimeRemaining; }).ToList(); //order a list on custom terms
+        //find out which battle character is next by checking their cooldown time and seeing whichever is the shortest
+        //call them 
     }
 
     private void PrepParty(BattlePartyComponent party)
@@ -31,6 +51,8 @@ public class BattleManager
         {
             partyBattleCharacter.transform.position = partyBattleSite.GetPositionForUnit(i);
             partyBattleCharacter.transform.rotation = partyBattleSite.transform.rotation;
+            partyBattleCharacter.OnTurnFinished += NextTurn;
+            mBattleCharacters.Add(partyBattleCharacter);
             i++;
         }
 
